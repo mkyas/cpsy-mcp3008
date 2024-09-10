@@ -10,7 +10,7 @@
 #include "MCP300x.hpp"
 
 
-MCP300x::MCP300x(unsigned max_channels) : max_channels(max_channels), spi_mode(MCP300x::MODE), spi_bpw(MCP300x::BPW), spi_delay(MCP300x::DELAY), spi_speed(MCP300x::SPEED_3V3_MAX_HZ)
+MCP300x::MCP300x(void) : spi_mode(MCP300x::MODE), spi_bpw(MCP300x::BPW), spi_delay(MCP300x::DELAY), spi_speed(MCP300x::SPEED_3V3_MAX_HZ)
 {
     this->spibus = open(MCP300x::spidev_path, O_RDWR);
     if (this->spibus) {
@@ -28,18 +28,25 @@ MCP300x::MCP300x(unsigned max_channels) : max_channels(max_channels), spi_mode(M
     if (0 > ioctl(this->spibus, SPI_IOC_RD_BITS_PER_WORD, &this->spi_bpw)) {
         throw std::runtime_error("MCP300x read ioctl failed");
     }
-    if (0 > ioctl(this->spibus, SPI_IOC_WR_MAX_SPEED_HZ, &this->spi_speed)) {
-        throw std::runtime_error("MCP300x read ioctl failed");
-    }
-    if (0 > ioctl(this->spibus, SPI_IOC_RD_MAX_SPEED_HZ, &this->spi_speed)) {
-        throw std::runtime_error("MCP300x read ioctl failed");
-    }
+    this->set_speed(this->spi_speed);
 }
 
 
 MCP300x::~MCP300x()
 {
     close(this->spibus);
+}
+
+
+void MCP300x::set_speed(std::uint32_t speed)
+{
+    this->spi_speed = speed;
+    if (0 > ioctl(this->spibus, SPI_IOC_WR_MAX_SPEED_HZ, &this->spi_speed)) {
+        throw std::runtime_error("MCP300x read ioctl failed");
+    }
+    if (0 > ioctl(this->spibus, SPI_IOC_RD_MAX_SPEED_HZ, &this->spi_speed)) {
+        throw std::runtime_error("MCP300x read ioctl failed");
+    }
 }
 
 

@@ -16,6 +16,7 @@ private:
     static constexpr const char *spidev_path = "/dev/spidev0.0";
 
     static constexpr std::uint8_t TX_WORD1     = 0b00000001;
+    // These configurations are for single-ended conversions.
     static constexpr std::uint8_t TX_WORD2_CH0 = 0b10000000;
     static constexpr std::uint8_t TX_WORD2_CH1 = 0b10010000;
     static constexpr std::uint8_t TX_WORD2_CH2 = 0b10100000;
@@ -42,10 +43,10 @@ private:
     static constexpr std::uint8_t RX_WORD2_MASK          = 0b00000011;
     static constexpr std::uint8_t RX_WORD3_MASK          = 0b11111111;
 
-    const unsigned max_channels;
     std::uint8_t spi_mode;
     std::uint8_t spi_bpw;
     std::uint16_t spi_delay;
+    // This is the SPI clock speed. The sample rate is 1/18 of this value.
     std::uint32_t spi_speed;
     int spibus;
 
@@ -58,14 +59,15 @@ public:
     static constexpr std::uint8_t LEN = 3;
     static constexpr std::uint8_t DELAY = 0;
     static constexpr std::uint16_t RESOLUTION = 1023;
-    static constexpr std::uint32_t SPEED_5V_MAX_HZ  = 3600000;
-    static constexpr std::uint32_t SPEED_3V3_MAX_HZ = 2340000;
+    static constexpr std::uint32_t SPEED_5V_MAX_HZ  = 3600000; // 200 ksps
+    static constexpr std::uint32_t SPEED_3V3_MAX_HZ = 2340000; // 130 ksps
     static constexpr std::uint32_t SPEED_MIN_HZ = 10000;	/* 10kHz at 85 degree c. */
 
-    explicit MCP300x(unsigned max_channels = MCP300x::CH_AMOUNT);
+    explicit MCP300x(void);
     MCP300x(const MCP300x&) = delete;
     ~MCP300x();
 
+    void set_speed(std::uint32_t);
     std::uint16_t read(std::uint_fast8_t channel = 0);
 };
 
