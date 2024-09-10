@@ -58,7 +58,8 @@ public:
     static constexpr std::uint8_t LEN = 3;
     static constexpr std::uint8_t DELAY = 0;
     static constexpr std::uint16_t RESOLUTION = 1023;
-    static constexpr std::uint32_t SPEED_5V_MAX_HZ = 3600000;
+    static constexpr std::uint32_t SPEED_5V_MAX_HZ  = 3600000;
+    static constexpr std::uint32_t SPEED_3V3_MAX_HZ = 2340000;
     static constexpr std::uint32_t SPEED_MIN_HZ = 10000;	/* 10kHz at 85 degree c. */
 
     explicit MCP300x(unsigned max_channels = MCP300x::CH_AMOUNT);

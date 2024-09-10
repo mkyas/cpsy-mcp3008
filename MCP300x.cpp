@@ -10,7 +10,7 @@
 #include "MCP300x.hpp"
 
 
-MCP300x::MCP300x(unsigned max_channels) : max_channels(max_channels), spi_mode(MCP300x::MODE), spi_bpw(MCP300x::BPW), spi_delay(MCP300x::DELAY), spi_speed(MCP300x::SPEED_5V_MAX_HZ)
+MCP300x::MCP300x(unsigned max_channels) : max_channels(max_channels), spi_mode(MCP300x::MODE), spi_bpw(MCP300x::BPW), spi_delay(MCP300x::DELAY), spi_speed(MCP300x::SPEED_3V3_MAX_HZ)
 {
     this->spibus = open(MCP300x::spidev_path, O_RDWR);
     if (this->spibus) {
