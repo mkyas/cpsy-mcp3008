@@ -1,4 +1,5 @@
-CXXFLAGS = -std=c++20 -Wall -O2
+CXXFLAGS = -std=c++20 -Wall -pthread -O2
+LDLIBS = -lpigpio -lrt
 
 testmcp: testmcp.cpp libmcp300x.a
 

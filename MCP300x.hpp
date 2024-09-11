@@ -13,7 +13,6 @@ class MCP300x
 {
 private:
     static constexpr std::uint16_t tenbit_mask = 0b0000001111111111;
-    static constexpr const char *spidev_path = "/dev/spidev0.0";
 
     static constexpr std::uint8_t TX_WORD1     = 0b00000001;
     // These configurations are for single-ended conversions.
@@ -43,6 +42,8 @@ private:
     static constexpr std::uint8_t RX_WORD2_MASK          = 0b00000011;
     static constexpr std::uint8_t RX_WORD3_MASK          = 0b11111111;
 
+    const char *spi_path;
+    const int spi_cs;
     std::uint8_t spi_mode;
     std::uint8_t spi_bpw;
     std::uint16_t spi_delay;
@@ -52,6 +53,7 @@ private:
 
     spi_ioc_transfer spi_ch_transfer;
 
+    std::uint16_t read_internal(std::uint_fast8_t channel = 0);
 public:
     static constexpr std::uint8_t CH_AMOUNT = 8;
     static constexpr std::uint8_t BPW = 8;
@@ -63,7 +65,7 @@ public:
     static constexpr std::uint32_t SPEED_3V3_MAX_HZ = 2340000; // 130 ksps
     static constexpr std::uint32_t SPEED_MIN_HZ = 10000;	/* 10kHz at 85 degree c. */
 
-    explicit MCP300x(void);
+    explicit MCP300x(const int cs = 5, const char *path = "/dev/spidev0.1");
     MCP300x(const MCP300x&) = delete;
     ~MCP300x();
 
