@@ -25,7 +25,7 @@ MCP300x::MCP300x(const int cs, const char* path)
     }
     gpioSetMode(this->spi_cs, PI_OUTPUT);
     gpioWrite(this->spi_cs, 1);
-    if (0 > ioctl(this->spibus, SPI_IOC_WR_MODE &this->spi_mode)) {
+    if (0 > ioctl(this->spibus, SPI_IOC_WR_MODE, &this->spi_mode)) {
         throw std::runtime_error("MCP300x() write mode ioctl failed");
     }
     if (0 > ioctl(this->spibus, SPI_IOC_RD_MODE, &this->spi_mode)) {
