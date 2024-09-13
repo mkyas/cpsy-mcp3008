@@ -44,9 +44,6 @@ private:
 
     const char *spi_path;
     const int spi_cs;
-    std::uint8_t spi_mode;
-    std::uint8_t spi_bpw;
-    std::uint16_t spi_delay;
     // This is the SPI clock speed. The sample rate is 1/18 of this value.
     std::uint32_t spi_speed;
     int spibus;
