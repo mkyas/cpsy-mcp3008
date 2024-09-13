@@ -13,6 +13,6 @@ int main()
 	    std::cerr << "Failed to initialise GPIO" << std::endl;
 	    return -1;
     }
-    std::cout << mcp300x.read() << std::endl;
+    std::cout << mcp300x.read_v() << std::endl;
     gpioTerminate();
 }

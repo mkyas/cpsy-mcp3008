@@ -44,6 +44,7 @@ private:
 
     const char *spi_path;
     const int spi_cs;
+    const float reference_voltage;
     // This is the SPI clock speed. The sample rate is 1/18 of this value.
     std::uint32_t spi_speed;
     int spibus;
@@ -67,7 +68,8 @@ public:
     ~MCP300x();
 
     void set_speed(std::uint32_t);
-    std::uint16_t read(std::uint_fast8_t channel = 0);
+    std::uint16_t read_raw(std::uint_fast8_t channel = 0);
+    float read_v(std::uint_fast8_t channel = 0);
 };
 
 #endif

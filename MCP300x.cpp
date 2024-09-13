@@ -16,6 +16,7 @@ extern "C" {
 
 MCP300x::MCP300x(const int cs, const char* path)
 	: spi_path(path), spi_cs(cs),
+	  reference_voltage(3.3),
 	  spi_speed(MCP300x::SPEED_3V3_MAX_HZ),
 	  spi_ch_transfer()
 {
@@ -96,10 +97,18 @@ std::uint16_t MCP300x::read_internal(std::uint_fast8_t channel)
 }
 
 
-std::uint16_t MCP300x::read(std::uint_fast8_t channel)
+std::uint16_t MCP300x::read_raw(std::uint_fast8_t channel)
 {
     gpioWrite(this->spi_cs, 0);
     std::uint16_t result = this->read_internal(channel);
     gpioWrite(this->spi_cs, 1);
     return result;
+}
+
+float MCP300x::read_v(std::uint_fast8_t channel)
+{
+    gpioWrite(this->spi_cs, 0);
+    std::uint16_t result = this->read_internal(channel);
+    gpioWrite(this->spi_cs, 1);
+    return this->reference_voltage * static_cast<float>(result) / 1023.0;
 }
