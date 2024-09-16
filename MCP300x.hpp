@@ -50,8 +50,6 @@ private:
     int spibus;
 
     spi_ioc_transfer spi_ch_transfer;
-
-    std::uint16_t read_internal(std::uint_fast8_t channel = 0);
 public:
     static constexpr std::uint8_t CH_AMOUNT = 8;
     static constexpr std::uint8_t BPW = 8;
@@ -70,6 +68,8 @@ public:
     void set_speed(std::uint32_t);
     std::uint16_t read_raw(std::uint_fast8_t channel = 0);
     float read_v(std::uint_fast8_t channel = 0);
+    void read_raw(std::array<std::uint16_t, 8>&, const std::array<bool, 8>&);
+    void read_v(std::array<float, 8>&, const std::array<bool, 8>&);
 };
 
 #endif
