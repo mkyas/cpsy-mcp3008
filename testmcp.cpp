@@ -7,12 +7,18 @@
 
 int main()
 {
-    MCP300x mcp300x;
-
     if (0 > gpioInitialise()) {
-	    std::cerr << "Failed to initialise GPIO" << std::endl;
-	    return -1;
+        std::cerr << "gpioInitialize failed" << std::endl;
+	return 1;
     }
-    std::cout << mcp300x.read_v() << std::endl;
+
+    MCP300x mcp300x;
+    std::array<float, 8> result;
+    std::array<bool, 8> channel = {true, false, false, false, false, false, false, true};
+    constexpr float scaling = 29.8 / 9.8;
+    for (auto i = 0; i < 100; i++) {
+	mcp300x.read_v(result, channel);
+        std::cout << result[0] << " " << scaling * result[7] << std::endl;
+    }
     gpioTerminate();
 }
